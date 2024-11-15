@@ -13,17 +13,21 @@ func main() {
 	flag.Parse()
 
 	// Проверяем, передан ли timestamp параметром
-	if len(flag.Args()) < 1 {
+	if len(flag.Args()) == 1 && flag.Args()[0] == "help" {
 		fmt.Println("Usage: timestamp [-diff] <timestamp>")
 		return
 	}
 
-	// Преобразуем строку в целое число (timestamp)
-	timestampStr := flag.Args()[0]
-	timestamp, err := strconv.ParseInt(timestampStr, 10, 64)
-	if err != nil {
-		fmt.Println("Error: invalid timestamp")
-		return
+	timestamp := time.Now().Unix()
+	var err error
+	if len(flag.Args()) == 1 {
+		timestampStr := flag.Args()[0]
+		// Преобразуем строку в целое число (timestamp)
+		timestamp, err = strconv.ParseInt(timestampStr, 10, 64)
+		if err != nil {
+			fmt.Println("Error: invalid timestamp")
+			return
+		}
 	}
 
 	// Преобразуем timestamp в дату и время
